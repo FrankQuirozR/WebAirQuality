@@ -4,16 +4,12 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
-import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import GraficosEstacion from './GraficosEstacion';
-import { TrendingUp, Thermometer, Droplets } from 'lucide-react';
 import pmGif from 'C:/Users/frank/Desktop/PAGINASENSORES/geovisor/src/imagenes/PM.gif';
 import temperaturaGif from 'C:/Users/frank/Desktop/PAGINASENSORES/geovisor/src/imagenes/TEMPERATURA.gif';
 import humedadGif from 'C:/Users/frank/Desktop/PAGINASENSORES/geovisor/src/imagenes/humedad.gif';
-import StationData from './StationSidebar';
 import StationSidebar from './StationSidebar';
-import { ChartModal, StationCharts } from './ChartModal';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -111,17 +107,17 @@ const CustomPopup = ({ station, districtName, measurements }) => {
 };
 const App = () => {
   const [stations, setStations] = useState([]);
-  const [error, setError] = useState('');
+
   const [currentLocation, setCurrentLocation] = useState(null);
   const [districts, setDistricts] = useState({});
   const [selectedStation, setSelectedStation] = useState(null);
-  const [showPM2_5Chart, setShowPM2_5Chart] = useState(false);
-  const [showTemperatureChart, setShowTemperatureChart] = useState(false);
-  const [showHumidityChart, setShowHumidityChart] = useState(false);
+
   const [loading, setLoading] = useState(true);
-  const [map, setMap] = useState(null);
+ 
   const [showSidebar, setShowSidebar] = useState(false);
-  const [showChartModal, setShowChartModal] = useState(false);
+ 
+  
+
   const fetchDistrictName = async (latitude, longitude) => {
     try {
       // Usar Nominatim en lugar de OpenCage
@@ -174,10 +170,10 @@ try {
     console.log("Stations data:", data); // Imprime los datos de estaciones en consola
     setStations(data);
   } else {
-    setError('Failed to fetch data.');
+
   }
 } catch (error) {
-  setError('Error fetching data.');
+ 
 } finally {
   setLoading(false);
 }
@@ -192,7 +188,7 @@ try {
           setCurrentLocation([latitude, longitude]);
         },
         (error) => {
-          setError('Unable to retrieve your location.');
+       
         },
         {
           enableHighAccuracy: true,
@@ -201,7 +197,7 @@ try {
         }
       );
     } else {
-      setError('Geolocation is not supported by this browser.');
+     
     }
   };
 
@@ -328,9 +324,7 @@ try {
           eventHandlers={{
             click: () => {
               setSelectedStation({ station, districtName });
-              setShowPM2_5Chart(false);
-              setShowTemperatureChart(false);
-              setShowHumidityChart(false);
+              
               setShowSidebar(true);
             },
           }}
@@ -374,7 +368,7 @@ try {
           center={[3.428996, -76.523869]} 
           zoom={12} 
           style={{ height: '100%', width: '100%' }}
-          whenCreated={setMap}
+          
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
